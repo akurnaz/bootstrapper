@@ -1,39 +1,89 @@
-<!-- 
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+# Bootstrapper
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/guides/libraries/writing-package-pages). 
-
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-library-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/developing-packages). 
--->
-
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+Bootstrapper is a Dart package that allows you to initialize multiple config processes in parallel by grouping them.
 
 ## Features
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+- Bootstrapper enables you to group a list of objects that need to be initialized.
+- Objects that implement the `Bootstrapable` abstract class can be grouped together and initialized in parallel.
+- Bootstrapper ensures that objects belonging to the same group are initialized before objects belonging to a different group.
 
 ## Getting started
 
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+To use Bootstrapper in your project, you should include it in your dependencies in your pubspec.yaml file as follows:
+
+```yaml
+dependencies:
+  bootstrapper: ^0.1.0
+```
 
 ## Usage
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder. 
-
 ```dart
-const like = 'sample';
+import 'package:bootstrapper/bootstrapper.dart';
+
+class FooConfig implements Bootstrapable<String> {
+  FooConfig(this.groupId);
+
+  @override
+  final int groupId;
+
+  @override
+  Future<void> initialize(String property) async {
+    print('FooConfig($groupId) is started with $property property');
+
+    await Future.delayed(const Duration(seconds: 1));
+
+    print('FooConfig($groupId) is finished with $property property');
+  }
+}
+
+class BarConfig implements Bootstrapable<String> {
+  BarConfig(this.groupId);
+
+  @override
+  final int groupId;
+
+  @override
+  Future<void> initialize(String property) async {
+    print('BarConfig($groupId) is started with $property property');
+
+    await Future.delayed(const Duration(seconds: 2));
+
+    print('BarConfig($groupId) is finished with $property property');
+  }
+}
+
+class BazConfig implements Bootstrapable<String> {
+  BazConfig(this.groupId);
+
+  @override
+  final int groupId;
+
+  @override
+  Future<void> initialize(String property) async {
+    print('BazConfig($groupId) is started with $property property');
+
+    await Future.delayed(const Duration(seconds: 3));
+
+    print('BazConfig($groupId) is finished with $property property');
+  }
+}
+
+Future<void> main() async {
+  Bootstrapper bootstrapper = Bootstrapper<String>(
+    property: 'development',
+    bootstrapables: [
+      FooConfig(0),
+      BarConfig(0),
+      BarConfig(1),
+    ],
+  );
+
+  await bootstrapper.initialize();
+}
 ```
 
 ## Additional information
 
-TODO: Tell users more about the package: where to find more information, how to 
-contribute to the package, how to file issues, what response they can expect 
-from the package authors, and more.
+If you encounter any issues or have any questions, you can file an issue on the official GitHub repository. Contributions are also welcome via pull requests.

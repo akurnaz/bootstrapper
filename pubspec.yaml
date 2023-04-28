@@ -1,5 +1,5 @@
 name: bootstrapper
-description: A starting point for Dart libraries or applications.
+description: Bootstrapper is a package to initialize multiple config in parallel by grouping them. 
 version: 0.1.0
 repository: https://github.com/akurnaz/bootstrapper
 
@@ -7,6 +7,7 @@ environment:
   sdk: '>=2.19.6 <3.0.0'
 
 dependencies:
+  meta: ^1.9.1
 
 dev_dependencies:
   lints: ^2.0.0

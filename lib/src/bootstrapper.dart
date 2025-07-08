@@ -10,10 +10,7 @@ abstract class Bootstrapable<P> {
 }
 
 class Bootstrapper<P> {
-  Bootstrapper({
-    required this.property,
-    required this.bootstrapables,
-  });
+  Bootstrapper({required this.property, required this.bootstrapables});
 
   /// The value that will be passed to the initialize method of each [Bootstrapable] object.
   final P property;
@@ -25,8 +22,9 @@ class Bootstrapper<P> {
   Future<void> initialize() async {
     final Map<int, List<Bootstrapable>> groupedMap = groupByGroupId(bootstrapables);
 
-    final Map<int, List<Bootstrapable>> sortedGroupedMap =
-        Map.fromEntries(groupedMap.entries.toList()..sort((e1, e2) => e1.key.compareTo(e2.key)));
+    final Map<int, List<Bootstrapable>> sortedGroupedMap = Map.fromEntries(
+      groupedMap.entries.toList()..sort((e1, e2) => e1.key.compareTo(e2.key)),
+    );
 
     for (var list in sortedGroupedMap.values) {
       await Future.wait(list.map((b) => b.initialize(property)));

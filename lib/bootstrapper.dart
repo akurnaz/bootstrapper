@@ -1,3 +1,3 @@
-library bootstrapper;
+library;
 
 export 'src/bootstrapper.dart';

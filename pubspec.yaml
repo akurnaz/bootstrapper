@@ -4,7 +4,7 @@ version: 0.1.0
 repository: https://github.com/akurnaz/bootstrapper
 
 environment:
-  sdk: '>=2.19.6 <3.0.0'
+  sdk: ^3.7.2
 
 dependencies:
   meta: ^1.8.0

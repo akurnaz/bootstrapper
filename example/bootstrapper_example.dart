@@ -51,11 +51,7 @@ class BazConfig implements Bootstrapable<String> {
 Future<void> main() async {
   Bootstrapper bootstrapper = Bootstrapper<String>(
     property: 'development',
-    bootstrapables: [
-      FooConfig(0),
-      BarConfig(0),
-      BarConfig(1),
-    ],
+    bootstrapables: [FooConfig(0), BarConfig(0), BazConfig(1)],
   );
 
   await bootstrapper.initialize();

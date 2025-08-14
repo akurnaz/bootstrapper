@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:collection/collection.dart';
 
 /// An abstract class representing an object that can be bootstrapped.
@@ -6,7 +8,7 @@ abstract class Bootstrappable<P> {
   int get groupId;
 
   /// Represents the operations that will be executed for the [Bootstrappable] object.
-  Future<void> initialize(P property);
+  FutureOr<void> initialize(P property);
 }
 
 class Bootstrapper<P> {
@@ -30,7 +32,7 @@ class Bootstrapper<P> {
     for (final groupId in sortedGroupIds) {
       final list = groupedLists[groupId]!;
 
-      await Future.wait(list.map((b) => b.initialize(_property)));
+      await Future.wait(list.map((b) => Future.sync(() => b.initialize(_property))));
     }
   }
 }

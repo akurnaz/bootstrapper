@@ -1,5 +1,6 @@
 name: bootstrapper
-description: Bootstrapper is a package to initialize multiple config in parallel by grouping them. 
+description: Bootstrapper is a package to initialize multiple config in parallel
+  by grouping them.
 version: 0.1.0
 repository: https://github.com/akurnaz/bootstrapper
 
@@ -7,7 +8,7 @@ environment:
   sdk: ^3.7.2
 
 dependencies:
-  meta: ^1.8.0
+  collection: ^1.19.1
 
 dev_dependencies:
   lints: ^6.0.0

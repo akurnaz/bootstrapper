@@ -22,62 +22,58 @@ dependencies:
 ```dart
 import 'package:bootstrapper/bootstrapper.dart';
 
-class FooConfig implements Bootstrappable<String> {
-  FooConfig(this.groupId);
+class DatabaseConfig implements Bootstrappable<String> {
+  DatabaseConfig(this.groupId);
 
   @override
   final int groupId;
 
   @override
   Future<void> initialize(String property) async {
-    print('FooConfig($groupId) is started with $property property');
+    print('DatabaseConfig($groupId) is started with $property property');
 
     await Future.delayed(const Duration(seconds: 1));
 
-    print('FooConfig($groupId) is finished with $property property');
+    print('DatabaseConfig($groupId) is finished with $property property');
   }
 }
 
-class BarConfig implements Bootstrappable<String> {
-  BarConfig(this.groupId);
+class CacheConfig implements Bootstrappable<String> {
+  CacheConfig(this.groupId);
 
   @override
   final int groupId;
 
   @override
   Future<void> initialize(String property) async {
-    print('BarConfig($groupId) is started with $property property');
+    print('CacheConfig($groupId) is started with $property property');
 
     await Future.delayed(const Duration(seconds: 2));
 
-    print('BarConfig($groupId) is finished with $property property');
+    print('CacheConfig($groupId) is finished with $property property');
   }
 }
 
-class BazConfig implements Bootstrappable<String> {
-  BazConfig(this.groupId);
+class ApiConfig implements Bootstrappable<String> {
+  ApiConfig(this.groupId);
 
   @override
   final int groupId;
 
   @override
   Future<void> initialize(String property) async {
-    print('BazConfig($groupId) is started with $property property');
+    print('ApiConfig($groupId) is started with $property property');
 
     await Future.delayed(const Duration(seconds: 3));
 
-    print('BazConfig($groupId) is finished with $property property');
+    print('ApiConfig($groupId) is finished with $property property');
   }
 }
 
 Future<void> main() async {
   Bootstrapper bootstrapper = Bootstrapper<String>(
     property: 'development',
-    bootstrappables: [
-      FooConfig(0),
-      BarConfig(0),
-      BarConfig(1),
-    ],
+    bootstrappables: [DatabaseConfig(0), CacheConfig(0), ApiConfig(1)],
   );
 
   await bootstrapper.initialize();

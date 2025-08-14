@@ -5,7 +5,7 @@ Bootstrapper is a Dart package that allows you to initialize multiple config pro
 ## Features
 
 - Bootstrapper enables you to group a list of objects that need to be initialized.
-- Objects that implement the `Bootstrapable` abstract class can be grouped together and initialized in parallel.
+- Objects that implement the `Bootstrappable` abstract class can be grouped together and initialized in parallel.
 - Bootstrapper ensures that objects belonging to the same group are initialized before objects belonging to a different group.
 
 ## Getting started
@@ -22,7 +22,7 @@ dependencies:
 ```dart
 import 'package:bootstrapper/bootstrapper.dart';
 
-class FooConfig implements Bootstrapable<String> {
+class FooConfig implements Bootstrappable<String> {
   FooConfig(this.groupId);
 
   @override
@@ -38,7 +38,7 @@ class FooConfig implements Bootstrapable<String> {
   }
 }
 
-class BarConfig implements Bootstrapable<String> {
+class BarConfig implements Bootstrappable<String> {
   BarConfig(this.groupId);
 
   @override
@@ -54,7 +54,7 @@ class BarConfig implements Bootstrapable<String> {
   }
 }
 
-class BazConfig implements Bootstrapable<String> {
+class BazConfig implements Bootstrappable<String> {
   BazConfig(this.groupId);
 
   @override
@@ -73,7 +73,7 @@ class BazConfig implements Bootstrapable<String> {
 Future<void> main() async {
   Bootstrapper bootstrapper = Bootstrapper<String>(
     property: 'development',
-    bootstrapables: [
+    bootstrappables: [
       FooConfig(0),
       BarConfig(0),
       BarConfig(1),

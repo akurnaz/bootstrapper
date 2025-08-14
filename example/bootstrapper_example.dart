@@ -1,6 +1,6 @@
 import 'package:bootstrapper/bootstrapper.dart';
 
-class FooConfig implements Bootstrapable<String> {
+class FooConfig implements Bootstrappable<String> {
   FooConfig(this.groupId);
 
   @override
@@ -16,7 +16,7 @@ class FooConfig implements Bootstrapable<String> {
   }
 }
 
-class BarConfig implements Bootstrapable<String> {
+class BarConfig implements Bootstrappable<String> {
   BarConfig(this.groupId);
 
   @override
@@ -32,7 +32,7 @@ class BarConfig implements Bootstrapable<String> {
   }
 }
 
-class BazConfig implements Bootstrapable<String> {
+class BazConfig implements Bootstrappable<String> {
   BazConfig(this.groupId);
 
   @override
@@ -51,7 +51,7 @@ class BazConfig implements Bootstrapable<String> {
 Future<void> main() async {
   Bootstrapper bootstrapper = Bootstrapper<String>(
     property: 'development',
-    bootstrapables: [FooConfig(0), BarConfig(0), BazConfig(1)],
+    bootstrappables: [FooConfig(0), BarConfig(0), BazConfig(1)],
   );
 
   await bootstrapper.initialize();

@@ -21,7 +21,7 @@ class Bootstrapper<P> {
   final List<Bootstrappable<P>> _bootstrappables;
 
   /// Groups all [Bootstrappable] objects by their groupIds and initializes the objects in each group
-  /// in parallel by calling their initialize methods.
+  /// concurrently by calling their initialize methods.
   Future<void> initialize() async {
     final groupedLists = _bootstrappables.groupListsBy((b) => b.groupId);
 

@@ -1,21 +1,9 @@
 # Bootstrapper
 
-Bootstrapper is a Dart package that allows you to initialize multiple config processes in parallel by grouping them.
+[![Pub Version](https://img.shields.io/pub/v/bootstrapper)](https://pub.dev/packages/bootstrapper)
+[![License](https://img.shields.io/github/license/akurnaz/bootstrapper)](LICENSE)
 
-## Features
-
-- Bootstrapper enables you to group a list of objects that need to be initialized.
-- Objects that implement the `Bootstrappable` abstract class can be grouped together and initialized in parallel.
-- Bootstrapper ensures that objects belonging to the same group are initialized before objects belonging to a different group.
-
-## Getting started
-
-To use Bootstrapper in your project, you should include it in your dependencies in your pubspec.yaml file as follows:
-
-```yaml
-dependencies:
-  bootstrapper: ^0.1.0
-```
+Bootstrapper is a Dart package that enables you to initialize multiple configuration processes concurrently by organizing them into prioritized groups. Suitable for application startup sequences, dependency initialization, and scenarios where you need controlled concurrent execution.
 
 ## Usage
 
@@ -30,11 +18,11 @@ class DatabaseConfig implements Bootstrappable<String> {
 
   @override
   Future<void> initialize(String property) async {
-    print('DatabaseConfig($groupId) is started with $property property');
+    print('DatabaseConfig($groupId) started with $property environment');
 
     await Future.delayed(const Duration(seconds: 1));
 
-    print('DatabaseConfig($groupId) is finished with $property property');
+    print('DatabaseConfig($groupId) completed');
   }
 }
 
@@ -46,11 +34,11 @@ class CacheConfig implements Bootstrappable<String> {
 
   @override
   Future<void> initialize(String property) async {
-    print('CacheConfig($groupId) is started with $property property');
+    print('CacheConfig($groupId) started with $property environment');
 
     await Future.delayed(const Duration(seconds: 2));
 
-    print('CacheConfig($groupId) is finished with $property property');
+    print('CacheConfig($groupId) completed');
   }
 }
 
@@ -62,24 +50,47 @@ class ApiConfig implements Bootstrappable<String> {
 
   @override
   Future<void> initialize(String property) async {
-    print('ApiConfig($groupId) is started with $property property');
+    print('ApiConfig($groupId) started with $property environment');
 
     await Future.delayed(const Duration(seconds: 3));
 
-    print('ApiConfig($groupId) is finished with $property property');
+    print('ApiConfig($groupId) completed');
   }
 }
 
 Future<void> main() async {
-  Bootstrapper bootstrapper = Bootstrapper<String>(
+  final bootstrapper = Bootstrapper<String>(
     property: 'development',
-    bootstrappables: [DatabaseConfig(0), CacheConfig(0), ApiConfig(1)],
+    bootstrappables: [
+      // Group 0: High priority - Database and Cache run concurrently
+      DatabaseConfig(0),
+      CacheConfig(0),
+      // Group 1: Lower priority - API runs after Group 0 completes
+      ApiConfig(1),
+    ],
   );
 
+  print('Starting application initialization...');
+
   await bootstrapper.initialize();
+
+  print('Application ready!');
 }
 ```
 
-## Additional information
+### Expected Output
+
+```
+Starting application initialization...
+DatabaseConfig(0) started with development environment
+CacheConfig(0) started with development environment
+DatabaseConfig(0) completed
+CacheConfig(0) completed
+ApiConfig(1) started with development environment
+ApiConfig(1) completed
+Application ready!
+```
+
+## Issues & Support
 
 If you encounter any issues or have any questions, you can file an issue on the official GitHub repository. Contributions are also welcome via pull requests.
